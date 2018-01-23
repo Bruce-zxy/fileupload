@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<!------分------割------线------>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="Author" content="Bruce Zhu">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>我的文件</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style type="text/css">
+		.container { margin-top: 40px }
+		.content { margin: 40px 0 20px }
+		.head { margin: 15px 0 }
+		.files_list li{margin:10px 0}
+		.files_list li a{display:block}
+		.files_list .info{float:right}
+    </style>
+
+</head>
+<!------分------割------线------>
+
+<body>
+
+	<div class="container">
+		<div class="content">
+			<div class="panel panel-info">
+				<div class="panel-heading"><h1 class="head panel-title">已上传的文件<small>&nbsp;&nbsp;&nbsp;&nbsp;可点击链接直接下载</small></h1></div>
+				<div class="files_list panel-body">
+					<ol id="ol"></ol>
+				</div>
+			</div>
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<a href="../fileupload">返回上传文件</a>
+		</div>
+	</div>
+
+</body>
+<script type="text/javascript">
+
+var xmlhttp,li = '';
+var target = './'
+
+function loadXMLDoc(url) {
+    xmlhttp = null;
+    if (window.XMLHttpRequest) { // code for all new browsers
+        xmlhttp = new XMLHttpRequest();
+    } else if (window.ActiveXObject) { // code for IE5 and IE6
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    if (xmlhttp != null) {
+        xmlhttp.onreadystatechange = state_Change;
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send(null);
+    } else {
+        alert("Your browser does not support XMLHTTP.");
+    }
+}
+
+function state_Change() {
+    if (xmlhttp.readyState == 4) { // 4 = "loaded"
+        if (xmlhttp.status == 200) { // 200 = OK
+            filesList(JSON.parse(xmlhttp.responseText));
+        } else {
+            alert("Problem retrieving XML data");
+        }
+    }
+}
+
+function createDom(name, size, time) {
+	li += '<li><a href="'+target+name+'" download="'+name+'">'+name+'<span class="info">'+time+' / <i>'+size+'</i></span></a></li>';
+}
+
+function filesList(data) {
+	var ol = document.getElementById('ol');
+	for (i in data) {
+		if (data.hasOwnProperty(i)) {
+			createDom(data[i].name, data[i].size, data[i].time);
+		}
+	}
+	ol.innerHTML = li;
+}
+
+loadXMLDoc(target+"list.php");
+
+</script>
+<!------分------割------线------>
+</html>

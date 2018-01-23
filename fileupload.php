@@ -23,19 +23,19 @@ if (((true || $_FILES["file"]["type"] == "image/gif")
     } else {
 
         // 判断当前目录下uploadForME文件夹是否存在
-        if (!file_exists("uploadForME")) {
+        if (!file_exists("./uploadForME")) {
             mkdir(iconv('utf-8', 'gbk', "uploadForME"));
         }
 
         // 判断当期目录下的 uploadForME 目录是否存在该文件
         // 如果没有 uploadForME 目录，你需要创建它，uploadForME 目录权限为 777
-        if (file_exists("uploadForME/" . $_FILES["file"]["name"])) {
+        if (file_exists("./uploadForME/" . $_FILES["file"]["name"])) {
             echo json_encode(array('exist_error' => $_FILES["file"]["name"] . " 文件已经存在。 "));
             // echo $_FILES["file"]["name"] . " 文件已经存在。 ";
         } else {
             // 如果 uploadForME 目录不存在该文件则将文件上传到 uploadForME 目录下
-            move_uploaded_file($_FILES["file"]["tmp_name"], "uploadForME/" . $_FILES["file"]["name"]);
-            chmod("uploadForME/" . $_FILES["file"]["name"], 0777);
+            move_uploaded_file($_FILES["file"]["tmp_name"], "./uploadForME/" . $_FILES["file"]["name"]);
+            // chmod("uploadForME/" . $_FILES["file"]["name"], 0777);
             echo json_encode(array('status' => 'ok'));
         }
     }
