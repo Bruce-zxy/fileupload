@@ -38,10 +38,9 @@ for ($x = 2; $x <= $len - 1; $x++) {
         continue;
     }
     $temp = new Lists();
-    $temp->name = $a[$x];
+    $temp->name = iconv('gbk', 'utf-8', $a[$x]);
     $temp->size = Fsize(filesize($a[$x]));
-    $temp->time = date("Y-m-d H:i:s", filemtime($a[$x]));
+    $temp->time = filemtime($a[$x]);
     array_push($list, $temp);
 }
-
 echo json_encode($list);
