@@ -1,1 +1,3 @@
-./uploadForMe/*
+/uploadForMe/*
+/uploadForMe/!index.html
+/uploadForMe/!list.php
